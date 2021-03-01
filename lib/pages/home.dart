@@ -8,16 +8,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _userId = 01;
   List<Todo> _todoList = List();
+  TextEditingController _taskEdtCtrl = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < 10; i++) {
-      final todo =
-          Todo(userId: 01, id: i, title: 'sample task $i', completed: false);
-      _todoList.add(todo);
-    }
   }
 
   @override
@@ -31,11 +28,24 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView(
           children: [
             TextField(
+              controller: _taskEdtCtrl,
               decoration: InputDecoration(hintText: 'Enter a task'),
             ),
             RaisedButton(
-              color: Theme.of(context).accentColor,
-              onPressed: () {},
+              color: Theme
+                  .of(context)
+                  .accentColor,
+              onPressed: () {
+                //Todo: add task to todoList
+                final todo = Todo(
+                    userId: _userId,
+                    id: _todoList.length,
+                    title: _taskEdtCtrl.value.text,
+                    completed: false);
+                setState(() {
+                  _todoList.add(todo);
+                });
+              },
               child: Text(
                 'Save',
               ),
@@ -54,10 +64,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildTodoItem(int index) {
+    final todo = _todoList[index];
+
     return Card(
       child: ListTile(
         // leading: FlutterLoFlutterLogogo(),
-        title: Text('${++index} One-line with both widgets'),
+        title: Text('${++index}. ${todo.title}'),
         // trailing: Icon(Icons.more_vert),
       ),
     );
