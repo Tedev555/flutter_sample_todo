@@ -1,6 +1,25 @@
 import 'package:flutter/material.dart';
 
-class MyHomePage extends StatelessWidget {
+import '../model/todo.dart';
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  List<Todo> _todoList = List();
+
+  @override
+  void initState() {
+    super.initState();
+    for (int i = 0; i < 10; i++) {
+      final todo =
+          Todo(userId: 01, id: i, title: 'sample task $i', completed: false);
+      _todoList.add(todo);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,12 +43,22 @@ class MyHomePage extends StatelessWidget {
             ListView.builder(
                 shrinkWrap: true,
                 physics: ScrollPhysics(),
-                itemCount: 10,
+                itemCount: _todoList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Text('${++index} sample task');
+                  return _buildTodoItem(index);
                 })
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildTodoItem(int index) {
+    return Card(
+      child: ListTile(
+        // leading: FlutterLoFlutterLogogo(),
+        title: Text('${++index} One-line with both widgets'),
+        // trailing: Icon(Icons.more_vert),
       ),
     );
   }
