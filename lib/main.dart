@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sample_todo/pages/home.dart';
+import 'package:flutter_sample_todo/pages/home/home.dart';
 import 'package:flutter_sample_todo/pages/login.dart';
 
 void main() {

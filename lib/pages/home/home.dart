@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sample_todo/pages/home/components/todo_item.dart';
 
-import '../model/todo.dart';
+import '../../model/todo.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -15,6 +16,12 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void onDeleteItem(int index) {
+    setState(() {
+      _todoList.removeAt(index);
+    });
   }
 
   @override
@@ -32,9 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
               decoration: InputDecoration(hintText: 'Enter a task'),
             ),
             RaisedButton(
-              color: Theme
-                  .of(context)
-                  .accentColor,
+              color: Theme.of(context).accentColor,
               onPressed: () {
                 //Todo: add task to todoList
                 final todo = Todo(
@@ -44,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     completed: false);
                 setState(() {
                   _todoList.add(todo);
+                  _taskEdtCtrl.text = '';
                 });
               },
               child: Text(
@@ -55,22 +61,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 physics: ScrollPhysics(),
                 itemCount: _todoList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return _buildTodoItem(index);
+                  return TodoItem(index + 1, _todoList[index], onDeleteItem);
                 })
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildTodoItem(int index) {
-    final todo = _todoList[index];
-
-    return Card(
-      child: ListTile(
-        // leading: FlutterLoFlutterLogogo(),
-        title: Text('${++index}. ${todo.title}'),
-        // trailing: Icon(Icons.more_vert),
       ),
     );
   }
